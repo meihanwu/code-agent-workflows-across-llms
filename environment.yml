@@ -1,0 +1,24 @@
+name: code-agent-eval
+channels:
+  - defaults
+dependencies:
+  - python=3.11.13
+  - pip
+  - pip:
+      - openai==1.91.0
+      - Jinja2==3.1.6
+      - anthropic==0.42.0
+      - datasets==3.2.0
+      - huggingface-hub==0.36.2
+      - pyarrow==17.0.0
+      - numpy==2.2.6
+      - pandas==3.0.5
+      - appdirs==1.4.4
+      - psutil==7.2.2
+      - rich==14.3.4
+      - tempdir==0.7.1
+      - termcolor==3.3.0
+      - tqdm==4.70.0
+      - tree-sitter==0.25.2
+      - tree-sitter-python==0.25.0
+      - wget==3.2
