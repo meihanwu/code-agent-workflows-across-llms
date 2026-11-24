@@ -10,7 +10,6 @@ Run the client and judges on Linux x86-64 with Conda and a local Docker Engine. 
 conda env create -f environment.yml
 conda activate code-agent-eval
 python -m pip check
-python -m unittest discover -s tests
 ```
 
 Pull the official vLLM 0.25.1 image used for evaluation. The judges mount the active Conda environment and the sources under `judges/` into the container. Docker must be able to bind-mount the repository and environment directories from the same host.
