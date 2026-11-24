@@ -4,7 +4,7 @@ Comparing coding agent workflows across locally deployed LLMs on code generation
 
 ## 1. Install the environment
 
-Run the client and judges on Linux x86-64 with Conda and a local Docker Engine. Run the following commands from the repository root. The judges run on CPU. Self-hosting the model in section 2 also requires NVIDIA GPUs and the NVIDIA Container Toolkit.
+Run the client and judges on Linux x86-64 with Conda and a local Docker Engine. Run the following commands from the repository root. The judges run on CPU.
 
 ```bash
 conda env create -f environment.yml
@@ -18,7 +18,7 @@ Pull the official vLLM 0.25.1 image used for evaluation. The judges mount the ac
 docker pull --platform linux/amd64 vllm/vllm-openai:v0.25.1
 ```
 
-## 2. Models and deployment
+## 2. Models tested
 
 | Model family | Models used in experiments |
 | --- | --- |
@@ -28,22 +28,7 @@ docker pull --platform linux/amd64 vllm/vllm-openai:v0.25.1
 | GLM | `GLM-4-32B-0414` |
 | StarCoder2 | `StarCoder2-15B-Instruct-v0.1` |
 
-### 2.1 Serve GPT-OSS-20B with vLLM
-
-If a model is already running, use its served model name and OpenAI-compatible `/v1` URL in section 4. Set `VLLM_API_KEY` if the endpoint requires authentication.
-
-To serve GPT-OSS-20B locally, run the following in a separate terminal with two suitable GPUs. Set `MODEL_DIR` to the directory containing the downloaded weights. The server listens on localhost port 18020. [Model weights](https://huggingface.co/openai/gpt-oss-20b) · [vLLM Docker guide](https://docs.vllm.ai/en/stable/deployment/docker/)
-
-```bash
-export MODEL_DIR=/absolute/path/to/gpt-oss-20b
-docker run --rm --gpus '"device=0,1"' --ipc=host \
-  -p 127.0.0.1:18020:8000 \
-  -v "${MODEL_DIR}:/model:ro" \
-  vllm/vllm-openai:v0.25.1 \
-  --model /model --served-model-name gpt-oss-20b \
-  --tensor-parallel-size 2 --max-model-len 32768 \
-  --gpu-memory-utilization 0.90 --max-num-seqs 8 --enable-prefix-caching
-```
+We served these models locally with vLLM in Docker containers.
 
 ## 3. Prepare data
 
