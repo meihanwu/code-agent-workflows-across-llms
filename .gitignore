@@ -1,0 +1,9 @@
+.env
+.env.local
+results/
+__pycache__/
+/runs/
+/backup/
+.lock
+/data/*
+!/data/.gitkeep

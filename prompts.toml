@@ -1,0 +1,488 @@
+[humaneval_plus.prompt_codegen_chat_api]
+system = "You are a Python programming agent. Write a correct Python solution to the given problem and follow the required interface and output format."
+user = '''
+Please provide a self-contained Python script that solves the following problem in a markdown code block:
+```python
+{{ task_prompt }}
+```'''
+
+[humaneval_plus.prompt_codegen_local_chat]
+system = ""
+user = '''
+Please provide a self-contained Python script that solves the following problem in a markdown code block:
+```
+{{ task_prompt }}
+```
+'''
+assistant_prefix = '''
+Below is a Python script with a self-contained function that solves the problem and passes corresponding tests:
+```python
+'''
+
+[humaneval_plus.prompt_codegen_completion]
+system = ""
+user = '''
+{{ task_prompt }}
+'''
+
+[mbpp_plus.prompt_codegen_chat_api]
+system = "You are a Python programming agent. Write a correct Python solution to the given problem and follow the required interface and output format."
+user = '''
+Please provide a self-contained Python script that solves the following problem in a markdown code block:
+```python
+{{ task_prompt }}
+```'''
+
+[mbpp_plus.prompt_codegen_local_chat]
+system = ""
+user = '''
+Please provide a self-contained Python script that solves the following problem in a markdown code block:
+```
+{{ task_prompt }}
+```
+'''
+assistant_prefix = '''
+Below is a Python script with a self-contained function that solves the problem and passes corresponding tests:
+```python
+'''
+
+[mbpp_plus.prompt_codegen_completion]
+system = ""
+user = '''
+{{ task_prompt }}
+'''
+
+[livecodebench.prompt_codegen_generic]
+system = '''
+You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.'''
+user = '''
+{% if starter_code %}### Question:
+{{ question_content }}
+
+### Format: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Answer: (use the provided format with backticks)
+
+{% else %}### Question:
+{{ question_content }}
+
+### Format: Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+### Answer: (use the provided format with backticks)
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_user_only]
+system = ""
+user = '''
+You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+{% if starter_code %}### Question:
+{{ question_content }}
+
+### Format: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Answer: (use the provided format with backticks)
+
+{% else %}### Question:
+{{ question_content }}
+
+### Format: Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+### Answer: (use the provided format with backticks)
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_openai_reason]
+system = ""
+user = '''
+You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+{% if starter_code %}### Question:
+{{ question_content }}
+
+### Format: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Answer: (use the provided format with backticks)
+
+{% else %}### Question:
+{{ question_content }}
+
+### Format: Implement a function called `main()` which orchastrates the solution by reading inputs from stdin and writing the answer to stdout. Feel free to use additional functions as necessary. Next do NOT forget to call `main` function at the end of the program otherwise you will not be awarded any points.
+```python
+# YOUR CODE HERE
+```
+
+### Answer: (use the provided format with backticks)
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_gemini]
+system = ""
+user = '''
+You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. Do NOT use system calls like `exit` in the generated program. Ensure that the first code block contains the solution.
+{% if starter_code %}### Question:
+{{ question_content }}
+
+### Format: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Answer: (use the provided format with backticks)
+
+{% else %}### Question:
+{{ question_content }}
+
+### Format: Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+### Answer: (use the provided format with backticks)
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_gemini_thinking]
+system = ""
+user = '''
+You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+{% if starter_code %}### Question:
+{{ question_content }}
+
+### Format: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Answer: (use the provided format with backticks)
+
+{% else %}### Question:
+{{ question_content }}
+
+### Format: Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+### Answer: (use the provided format with backticks)
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_deepseek_coder]
+system = ""
+user = '''
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you answer questions related to computer science.
+
+{% if starter_code %}### Instruction: You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. You will NOT return anything except for the program.
+
+Question:
+{{ question_content }}
+
+### Instruction: You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+### Response:
+
+{% else %}### Instruction: You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. You will NOT return anything except for the program.
+
+Question:
+{{ question_content }}
+
+### Instruction: Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+### Response:
+
+{% endif %}'''
+
+[livecodebench.prompt_codegen_codeqwen]
+system = ""
+user = '''
+<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+
+{% if starter_code %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. You will NOT return anything except for the program.
+
+Question: {{ question_content }}
+
+You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+<|im_end|>
+<|im_start|>assistant
+{% else %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. You will NOT return anything except for the program.
+
+Question: {{ question_content }}
+
+Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+<|im_end|>
+<|im_start|>assistant
+{% endif %}'''
+
+[livecodebench.prompt_codegen_qwq]
+system = ""
+user = '''
+<|im_start|>system
+You are a helpful and harmless assistant. You are Qwen developed by Alibaba. You should think step-by-step.<|im_end|>
+<|im_start|>user
+
+{% if starter_code %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+Question: {{ question_content }}
+
+You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+<|im_end|>
+<|im_start|>assistant
+{% else %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+Question: {{ question_content }}
+
+Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+<|im_end|>
+<|im_start|>assistant
+{% endif %}'''
+
+[livecodebench.prompt_codegen_deepseek_r1]
+system = ""
+user = '''
+<｜begin▁of▁sentence｜>A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>.<｜User｜>{% if starter_code %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+Question: {{ question_content }}
+
+You will use the following starter code to write the solution to the problem and enclose your code within delimiters.
+```python
+{{ starter_code }}
+```
+
+<｜Assistant｜>{% else %}You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.
+
+Question: {{ question_content }}
+
+Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT.
+```python
+# YOUR CODE HERE
+```
+
+<｜Assistant｜>{% endif %}'''
+
+[livecodebench.prompt_codegen_base]
+system = ""
+user = '''
+{% if starter_code %}### Question
+You are given a 0-indexed array of positive integers nums. Find the number of triplets (i, j, k) that meet the following conditions:
+
+0 <= i < j < k < nums.length
+nums[i], nums[j], and nums[k] are pairwise distinct.
+	
+In other words, nums[i] != nums[j], nums[i] != nums[k], and nums[j] != nums[k].
+
+
+
+Return the number of triplets that meet the conditions.
+ 
+Example 1:
+
+Input: nums = [4,4,2,4,3]
+Output: 3
+Explanation: The following triplets meet the conditions:
+- (0, 2, 4) because 4 != 2 != 3
+- (1, 2, 4) because 4 != 2 != 3
+- (2, 3, 4) because 2 != 4 != 3
+Since there are 3 triplets, we return 3.
+Note that (2, 0, 4) is not a valid triplet because 2 > 0.
+
+Example 2:
+
+Input: nums = [1,1,1,1,1]
+Output: 0
+Explanation: No triplets meet the conditions so we return 0.
+
+ 
+Constraints:
+
+3 <= nums.length <= 100
+1 <= nums[i] <= 1000
+
+
+
+### Starter Code
+class Solution:
+    def unequalTriplets(self, nums: List[int]) -> int:
+        
+
+### Answer
+
+class Solution:
+    def unequalTriplets(self, a: List[int]) -> int:
+        ans = 0
+        n = len(a)
+        for i in range(n):
+            for j in range(i + 1, n):
+                for k in range(j + 1, n):
+                    ans += len({a[i], a[j], a[k]}) == 3
+        return ans
+
+### Question
+{{ question_content }}
+
+### Starter Code
+{{ starter_code }}
+
+### Answer
+
+{% else %}### Question
+You have $n$ gifts and you want to give all of them to children. Of course, you don't want to offend anyone, so all gifts should be equal between each other. The $i$-th gift consists of $a_i$ candies and $b_i$ oranges.
+
+During one move, you can choose some gift $1 \le i \le n$ and do one of the following operations:
+
+  eat exactly one candy from this gift (decrease $a_i$ by one);  eat exactly one orange from this gift (decrease $b_i$ by one);  eat exactly one candy and exactly one orange from this gift (decrease both $a_i$ and $b_i$ by one). 
+
+Of course, you can not eat a candy or orange if it's not present in the gift (so neither $a_i$ nor $b_i$ can become less than zero).
+
+As said above, all gifts should be equal. This means that after some sequence of moves the following two conditions should be satisfied: $a_1 = a_2 = \dots = a_n$ and $b_1 = b_2 = \dots = b_n$ (and $a_i$ equals $b_i$ is not necessary).
+
+Your task is to find the minimum number of moves required to equalize all the given gifts.
+
+You have to answer $t$ independent test cases.
+
+
+-----Input-----
+
+The first line of the input contains one integer $t$ ($1 \le t \le 1000$) — the number of test cases. Then $t$ test cases follow.
+
+The first line of the test case contains one integer $n$ ($1 \le n \le 50$) — the number of gifts. The second line of the test case contains $n$ integers $a_1, a_2, \dots, a_n$ ($1 \le a_i \le 10^9$), where $a_i$ is the number of candies in the $i$-th gift. The third line of the test case contains $n$ integers $b_1, b_2, \dots, b_n$ ($1 \le b_i \le 10^9$), where $b_i$ is the number of oranges in the $i$-th gift.
+
+
+-----Output-----
+
+For each test case, print one integer: the minimum number of moves required to equalize all the given gifts.
+
+
+-----Example-----
+Input
+5
+3
+3 5 6
+3 2 3
+5
+1 2 3 4 5
+5 4 3 2 1
+3
+1 1 1
+2 2 2
+6
+1 1000000000 1000000000 1000000000 1000000000 1000000000
+1 1 1 1 1 1
+3
+10 12 8
+7 5 4
+
+Output
+6
+16
+0
+4999999995
+7
+
+
+
+-----Note-----
+
+In the first test case of the example, we can perform the following sequence of moves:
+
+  choose the first gift and eat one orange from it, so $a = [3, 5, 6]$ and $b = [2, 2, 3]$;  choose the second gift and eat one candy from it, so $a = [3, 4, 6]$ and $b = [2, 2, 3]$;  choose the second gift and eat one candy from it, so $a = [3, 3, 6]$ and $b = [2, 2, 3]$;  choose the third gift and eat one candy and one orange from it, so $a = [3, 3, 5]$ and $b = [2, 2, 2]$;  choose the third gift and eat one candy from it, so $a = [3, 3, 4]$ and $b = [2, 2, 2]$;  choose the third gift and eat one candy from it, so $a = [3, 3, 3]$ and $b = [2, 2, 2]$.
+
+### Answer
+
+def minimum_moves(t, test_cases):
+    for _ in range(t):
+        n = test_cases[_][0]
+        candies = test_cases[_][1]
+        oranges = test_cases[_][2]
+        min_candies = min(candies)
+        min_oranges = min(oranges)
+        ans = 0
+        for i in range(n):
+            ans += max(candies[i] - min_candies, oranges[i] - min_oranges)
+        print(ans)
+
+
+def main():
+    t = int(input())
+    test_cases = []
+    for _ in range(t):
+        n = int(input())
+        candies = list(map(int, input().split()))
+        oranges = list(map(int, input().split()))
+        test_cases.append((n, candies, oranges))
+    minimum_moves(t, test_cases)
+
+
+main()
+
+
+### Question
+{{ question_content }}
+
+### Answer
+
+{% endif %}'''
+
+[apps.prompt_codegen_completion]
+system = ""
+user = '''
+
+QUESTION:
+{{ question }}{% if starter_code %}
+{{ starter_code }}{% endif %}{% if fn_name %}
+Use Call-Based format{% else %}
+Use Standard Input format{% endif %}
+ANSWER:
+'''
+
+[apps.prompt_codegen_chat_api]
+system = "You are a Python programming agent. Write a correct Python solution to the given problem and follow the required interface and output format."
+user = '''
+
+QUESTION:
+{{ question }}{% if starter_code %}
+{{ starter_code }}{% endif %}{% if fn_name %}
+Use Call-Based format{% else %}
+Use Standard Input format{% endif %}
+ANSWER:
+'''
