@@ -13,10 +13,10 @@ python -m pip check
 python -m unittest discover -s tests
 ```
 
-Pull the exact image used for evaluation. The judges mount the active Conda environment and the sources under `judges/` into the container. Docker must be able to bind-mount the repository and environment directories from the same host.
+Pull the official vLLM 0.25.1 image used for evaluation. The judges mount the active Conda environment and the sources under `judges/` into the container. Docker must be able to bind-mount the repository and environment directories from the same host.
 
 ```bash
-docker pull --platform linux/amd64 vllm/vllm-openai@sha256:e4f88a835143cd22aee2397a26ec6bb80b3a4a6fe0c882bcbc63822904766089
+docker pull --platform linux/amd64 vllm/vllm-openai:v0.25.1
 ```
 
 ## 2. Connect a model
@@ -30,7 +30,7 @@ export MODEL_DIR=/absolute/path/to/gpt-oss-120b
 docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
   -p 127.0.0.1:18023:8000 \
   -v "${MODEL_DIR}:/model:ro" \
-  vllm/vllm-openai@sha256:e4f88a835143cd22aee2397a26ec6bb80b3a4a6fe0c882bcbc63822904766089 \
+  vllm/vllm-openai:v0.25.1 \
   --model /model --served-model-name gpt-oss-120b \
   --tensor-parallel-size 4 --max-model-len 32768 \
   --gpu-memory-utilization 0.90 --max-num-seqs 8 --enable-prefix-caching
