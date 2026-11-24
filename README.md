@@ -62,7 +62,11 @@ The introductory and interview experiments used corrected test cases for APPS ta
 [lcb]: https://huggingface.co/datasets/livecodebench/code_generation_lite/resolve/0fe84c3912ea0c4d4a78037083943e8f0c4dd505/test.jsonl
 [apps]: https://huggingface.co/datasets/codeparrot/apps/resolve/21e74ddf8de1a21436da12e3e653065c5213e9d1/test.jsonl
 
-## 4. Generate and evaluate one solution
+## 4. Generate and evaluate code
+
+### 4.1 Generate a solution with GPT-OSS-20B
+
+MBPP+ task `Mbpp/2` asks for a function that finds the elements shared by two lists. From the repository root, run the command below with the Conda environment active. Set `--base-url` to your vLLM endpoint and `--model` to the name served there.
 
 ```bash
 python main.py --dataset mbpp_plus \
@@ -70,16 +74,20 @@ python main.py --dataset mbpp_plus \
   --model gpt-oss-20b --base-url http://127.0.0.1:18020/v1 \
   --reasoning-effort low --temperature 0 \
   --timeout 1200 --task-id Mbpp/2
+```
 
+`--task-id` selects one record from the dataset. The example sends the prompt with low reasoning effort, a sampling temperature of zero, and a request timeout of 1,200 seconds. The generator saves the extracted Python solution in the JSONL file used in the next step.
+
+### 4.2 Evaluate the saved solution
+
+Pass the generated file to `--results-file` and use the same dataset and task ID. EvalPlus runs the saved code against the base tests, then runs the additional tests if the base tests pass.
+
+```bash
 python evaluate.py --dataset mbpp_plus \
   --results-file results/gpt-oss-20b/mbpp_plus.jsonl \
   --task-id Mbpp/2 --workers 4
 ```
 
-| Output | Location |
-| --- | --- |
-| Extracted solutions | `results/gpt-oss-20b/mbpp_plus.jsonl` |
-| Raw model responses | `results/gpt-oss-20b/responses/mbpp_plus.jsonl` |
-| Per-task verdicts and summary | `evaluation/gpt-oss-20b/mbpp_plus/{verdicts.jsonl,metrics.json}` |
+`--workers 4` allows up to four tasks to be judged concurrently. This example selects one. In the printed summary, `base_passed` counts solutions that passed the base tests, and `passed` counts those that passed both suites.
 
-Omit `--task-id` from both commands for the full dataset. EvalPlus reuses matching reference outputs in `~/.cache/evalplus/` when available. On a cache miss, it computes reference outputs for the entire dataset inside the temporary container, even for a one-task run.
+To evaluate all 378 MBPP+ tasks, remove `--task-id Mbpp/2` from both commands. Run generation first so it can reuse saved results and finish the remaining tasks. Then run evaluation on the complete file. The reported `pass@1` is the fraction of tasks whose single generated solution passed both test suites.
