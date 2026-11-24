@@ -26,7 +26,6 @@ docker pull --platform linux/amd64 vllm/vllm-openai:v0.25.1
 | Qwen | `Qwen2.5-Coder-32B-Instruct`, `Qwen3-32B`, `Qwen3.8-27B` |
 | Gemma | `gemma-3-27b-it`, `gemma-4-31b-it` |
 | GLM | `GLM-4-32B-0414` |
-| StarCoder2 | `StarCoder2-15B-Instruct-v0.1` |
 
 We served these models locally with vLLM in Docker containers.
 
