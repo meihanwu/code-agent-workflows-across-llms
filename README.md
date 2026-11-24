@@ -17,7 +17,6 @@ Pull the exact image used for evaluation. The judges mount the active Conda envi
 
 ```bash
 docker pull --platform linux/amd64 vllm/vllm-openai@sha256:e4f88a835143cd22aee2397a26ec6bb80b3a4a6fe0c882bcbc63822904766089
-mkdir -p ~/.cache/evalplus
 ```
 
 ## 2. Connect a model
