@@ -19,20 +19,30 @@ Pull the official vLLM 0.25.1 image used for evaluation. The judges mount the ac
 docker pull --platform linux/amd64 vllm/vllm-openai:v0.25.1
 ```
 
-## 2. Connect a model
+## 2. Models and deployment
+
+| Model family | Models used in experiments |
+| --- | --- |
+| GPT-OSS | `gpt-oss-20b`, `gpt-oss-120b` |
+| Qwen | `Qwen2.5-Coder-32B-Instruct`, `Qwen3-32B`, `Qwen3.8-27B` |
+| Gemma | `gemma-3-27b-it`, `gemma-4-31b-it` |
+| GLM | `GLM-4-32B-0414` |
+| StarCoder2 | `StarCoder2-15B-Instruct-v0.1` |
+
+### 2.1 Serve GPT-OSS-20B with vLLM
 
 If a model is already running, use its served model name and OpenAI-compatible `/v1` URL in section 4. Set `VLLM_API_KEY` if the endpoint requires authentication.
 
-To serve GPT-OSS-120B locally, run the following in a separate terminal with four suitable GPUs. Set `MODEL_DIR` to the directory containing the downloaded weights. The server listens on localhost port 18023. [Model weights](https://huggingface.co/openai/gpt-oss-120b) · [vLLM Docker guide](https://docs.vllm.ai/en/stable/deployment/docker/)
+To serve GPT-OSS-20B locally, run the following in a separate terminal with two suitable GPUs. Set `MODEL_DIR` to the directory containing the downloaded weights. The server listens on localhost port 18020. [Model weights](https://huggingface.co/openai/gpt-oss-20b) · [vLLM Docker guide](https://docs.vllm.ai/en/stable/deployment/docker/)
 
 ```bash
-export MODEL_DIR=/absolute/path/to/gpt-oss-120b
-docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
-  -p 127.0.0.1:18023:8000 \
+export MODEL_DIR=/absolute/path/to/gpt-oss-20b
+docker run --rm --gpus '"device=0,1"' --ipc=host \
+  -p 127.0.0.1:18020:8000 \
   -v "${MODEL_DIR}:/model:ro" \
   vllm/vllm-openai:v0.25.1 \
-  --model /model --served-model-name gpt-oss-120b \
-  --tensor-parallel-size 4 --max-model-len 32768 \
+  --model /model --served-model-name gpt-oss-20b \
+  --tensor-parallel-size 2 --max-model-len 32768 \
   --gpu-memory-utilization 0.90 --max-num-seqs 8 --enable-prefix-caching
 ```
 
@@ -63,19 +73,19 @@ gzip -dc data/MBPPEval/MbppPlus-NoExtreme.jsonl.gz > data/MBPPEval/MBPPPlus-NoEx
 ```bash
 python main.py --dataset mbpp_plus \
   --data-path data/MBPPEval/MBPPPlus-NoExtreme.jsonl \
-  --model gpt-oss-120b --base-url http://127.0.0.1:18023/v1 \
-  --reasoning-effort low --temperature 0 --max-tokens 8192 \
+  --model gpt-oss-20b --base-url http://127.0.0.1:18020/v1 \
+  --reasoning-effort low --temperature 0 \
   --timeout 1200 --task-id Mbpp/2
 
 python evaluate.py --dataset mbpp_plus \
-  --results-file results/gpt-oss-120b/mbpp_plus.jsonl \
+  --results-file results/gpt-oss-20b/mbpp_plus.jsonl \
   --task-id Mbpp/2 --workers 4
 ```
 
 | Output | Location |
 | --- | --- |
-| Extracted solutions | `results/gpt-oss-120b/mbpp_plus.jsonl` |
-| Raw model responses | `results/gpt-oss-120b/responses/mbpp_plus.jsonl` |
-| Per-task verdicts and summary | `evaluation/gpt-oss-120b/mbpp_plus/{verdicts.jsonl,metrics.json}` |
+| Extracted solutions | `results/gpt-oss-20b/mbpp_plus.jsonl` |
+| Raw model responses | `results/gpt-oss-20b/responses/mbpp_plus.jsonl` |
+| Per-task verdicts and summary | `evaluation/gpt-oss-20b/mbpp_plus/{verdicts.jsonl,metrics.json}` |
 
 Omit `--task-id` from both commands for the full dataset. EvalPlus reuses matching reference outputs in `~/.cache/evalplus/` when available. On a cache miss, it computes reference outputs for the entire dataset inside the temporary container, even for a one-task run.
