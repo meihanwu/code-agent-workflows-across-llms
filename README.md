@@ -31,25 +31,22 @@ We served these models locally with vLLM in Docker containers.
 
 ## 3. Prepare data
 
-For the one-task example, download and decompress the official MBPP+ NoExtreme release. Keep all 378 records in the file. The evaluator checks the full dataset and then selects the requested task.
+| Dataset | Download | Processing | Tasks | JSONL path under `data/` |
+| --- | --- | --- | ---: | --- |
+| `humaneval_plus` | [HumanEval+ v0.1.10][he] · [adapted prompts and public tests][adapted] | Decompress the release. Join by `task_id`, using the adapted prompts and public tests alongside the official evaluation fields. The experiment includes prompt corrections for tasks 32, 47, 114, 115, 149 and 158. | 164 | `HumanEvalPlus/humanevalplus.jsonl` |
+| `mbpp_plus` | [MBPP+ v0.2.0 NoExtreme][mbpp] | Decompress the JSONL file and keep every record. | 378 | `MBPPEval/MBPPPlus-NoExtreme.jsonl` |
+| `livecodebench` | [LiveCodeBench-lite test split][lcb] | Select `medium` records and exclude question `abc311_c`. | 167 | `livecodebench/LiveCodeBench-lite-medium.jsonl` |
+| `livecodebench_hard` | [LiveCodeBench-lite test split][lcb] | Select all `hard` records. | 90 | `livecodebench/LiveCodeBench-lite-hard.jsonl` |
+| `apps-150` | [APPS test split][apps] | The experiment uses a fixed selection of 50 standard-input tasks per difficulty. Reproducing this selection requires the original task IDs. | 150 | `APPS/APPS-test-stratified150.jsonl` |
+| `apps-introductory` | [APPS test split][apps] | Select `introductory` records. The experiment corrects an expected boolean in task 4751 and an integer input in 4752. | 1,000 | `APPS/APPS-test-introductory.jsonl` |
+| `apps-interview` | [APPS test split][apps] | Select `interview` records. The experiment corrects extra quotes or list nesting in the test inputs or outputs of tasks 2468, 2745–2748, 2882 and 2884. | 3,000 | `APPS/APPS-test-interview.jsonl` |
+| `apps-competition` | [APPS test split][apps] | Select all `competition` records and preserve their contents. | 1,000 | `APPS/APPS-test-competition.jsonl` |
 
-```bash
-mkdir -p data/MBPPEval
-curl -fL --retry 3 -o data/MBPPEval/MbppPlus-NoExtreme.jsonl.gz \
-  https://github.com/evalplus/mbppplus_release/releases/download/v0.2.0/MbppPlus-NoExtreme.jsonl.gz
-gzip -dc data/MBPPEval/MbppPlus-NoExtreme.jsonl.gz > data/MBPPEval/MBPPPlus-NoExtreme.jsonl
-```
-
-| Dataset argument | JSONL path under `data/` | Tasks | Source and experiment split |
-| --- | --- | ---: | --- |
-| `humaneval_plus` | `HumanEvalPlus/humanevalplus.jsonl` | 164 | [HumanEval+ v0.1.10](https://github.com/evalplus/humanevalplus_release/releases/tag/v0.1.10). The experiments used corrected prompts and public tests from an [adapted dataset](https://github.com/XZC888/MavenCoder/blob/main/data/humanevalplus.jsonl), joined by task ID. |
-| `mbpp_plus` | `MBPPEval/MBPPPlus-NoExtreme.jsonl` | 378 | [MBPP+ v0.2.0](https://github.com/evalplus/mbppplus_release/releases/tag/v0.2.0), NoExtreme. |
-| `livecodebench` | `livecodebench/LiveCodeBench-lite-medium.jsonl` | 167 | Medium records from the [pinned LiveCodeBench-lite split](https://huggingface.co/datasets/livecodebench/code_generation_lite/blob/0fe84c3912ea0c4d4a78037083943e8f0c4dd505/test.jsonl), excluding `abc311_c`. |
-| `livecodebench_hard` | `livecodebench/LiveCodeBench-lite-hard.jsonl` | 90 | All hard records from the same split. |
-| `apps-150` | `APPS/APPS-test-stratified150.jsonl` | 150 | Fixed selection of 50 standard-input tasks per difficulty from the [pinned APPS test set](https://huggingface.co/datasets/codeparrot/apps/blob/21e74ddf8de1a21436da12e3e653065c5213e9d1/test.jsonl). Exact reproduction requires the experiment subset. |
-| `apps-introductory` | `APPS/APPS-test-introductory.jsonl` | 1,000 | Filter APPS by `introductory`. The experiment copy has two corrected test records. |
-| `apps-interview` | `APPS/APPS-test-interview.jsonl` | 3,000 | Filter APPS by `interview`. The experiment copy has seven corrected test records. |
-| `apps-competition` | `APPS/APPS-test-competition.jsonl` | 1,000 | Filter APPS by `competition`. |
+[he]: https://github.com/evalplus/humanevalplus_release/releases/download/v0.1.10/HumanEvalPlus.jsonl.gz
+[adapted]: https://raw.githubusercontent.com/XZC888/MavenCoder/main/data/humanevalplus.jsonl
+[mbpp]: https://github.com/evalplus/mbppplus_release/releases/download/v0.2.0/MbppPlus-NoExtreme.jsonl.gz
+[lcb]: https://huggingface.co/datasets/livecodebench/code_generation_lite/resolve/0fe84c3912ea0c4d4a78037083943e8f0c4dd505/test.jsonl
+[apps]: https://huggingface.co/datasets/codeparrot/apps/resolve/21e74ddf8de1a21436da12e3e653065c5213e9d1/test.jsonl
 
 ## 4. Generate and evaluate one solution
 
