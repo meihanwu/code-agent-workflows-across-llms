@@ -64,30 +64,30 @@ The introductory and interview experiments used corrected test cases for APPS ta
 
 ## 4. Generate and evaluate code
 
-### 4.1 Generate a solution with GPT-OSS-20B
+### 4.1 Generate solutions with GPT-OSS-20B
 
-MBPP+ task `Mbpp/2` asks for a function that finds the elements shared by two lists. From the repository root, run the command below with the Conda environment active. Set `--base-url` to your vLLM endpoint and `--model` to the name served there.
+Generate one solution for each of the 378 MBPP+ tasks. From the repository root, run the command below with the Conda environment active. Set `--base-url` to your vLLM endpoint and `--model` to the name served there.
 
 ```bash
 python main.py --dataset mbpp_plus \
   --data-path data/MBPPEval/MBPPPlus-NoExtreme.jsonl \
   --model gpt-oss-20b --base-url http://127.0.0.1:18020/v1 \
   --reasoning-effort low --temperature 0 \
-  --timeout 1200 --task-id Mbpp/2
+  --timeout 1200
 ```
 
-`--task-id` selects one record from the dataset. The example sends the prompt with low reasoning effort, a sampling temperature of zero, and a request timeout of 1,200 seconds. The generator saves the extracted Python solution in the JSONL file used in the next step.
+The example uses low reasoning effort, a sampling temperature of zero, and a request timeout of 1,200 seconds. If generation is interrupted, rerun the same command to resume from the saved results.
 
-### 4.2 Evaluate the saved solution
+### 4.2 Evaluate the saved solutions
 
-Pass the generated file to `--results-file` and use the same dataset and task ID. EvalPlus runs the saved code against the base tests, then runs the additional tests if the base tests pass.
+Once generation finishes, pass the complete JSONL file to `--results-file`. EvalPlus runs each solution against the base tests, then runs the additional tests if the base tests pass.
 
 ```bash
 python evaluate.py --dataset mbpp_plus \
   --results-file results/gpt-oss-20b/mbpp_plus.jsonl \
-  --task-id Mbpp/2 --workers 4
+  --workers 4
 ```
 
-`--workers 4` allows up to four tasks to be judged concurrently. This example selects one. In the printed summary, `base_passed` counts solutions that passed the base tests, and `passed` counts those that passed both suites.
+`--workers 4` allows up to four tasks to be judged concurrently. In the printed summary, `base_passed` counts solutions that passed the base tests, `passed` counts those that passed both suites, and `pass@1` is the fraction of evaluated tasks that passed both suites.
 
-To evaluate all 378 MBPP+ tasks, remove `--task-id Mbpp/2` from both commands. Run generation first so it can reuse saved results and finish the remaining tasks. Then run evaluation on the complete file. The reported `pass@1` is the fraction of tasks whose single generated solution passed both test suites.
+For a single task, add the optional `--task-id Mbpp/2` to either command. During generation it selects the prompt to send to the model. During evaluation it selects the saved solution to judge.
