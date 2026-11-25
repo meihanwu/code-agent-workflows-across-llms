@@ -39,7 +39,6 @@ The MBPP+ example in section 4 uses the file included here.
 | --- | ---: | --- | --- |
 | [HumanEval+](data/HumanEvalPlus/humanevalplus.jsonl) | 164 | [HumanEval+ v0.1.10][he] and [adapted prompts and public tests][adapted] | Join by `task_id`. Keep the official evaluation fields, adapted prompts and public tests, including prompt corrections for tasks 32, 47, 114, 115, 149 and 158. |
 | [MBPP+ NoExtreme](data/MBPPEval/MBPPPlus-NoExtreme.jsonl) | 378 | [MBPP+ v0.2.0 NoExtreme][mbpp] | Decompress and retain all records. |
-| [APPS-150](data/APPS/APPS-test-stratified150.jsonl) | 150 | [APPS test split][apps] | Select 50 standard-input tasks from each of the three difficulty levels. The file contains the exact experiment selection. |
 | [LiveCodeBench-lite Easy](data/livecodebench/LiveCodeBench-lite-easy.jsonl) | 142 | [LiveCodeBench-lite test split][lcb] | Select all easy records. Supplementary split, outside the current experiment set. |
 
 ### 3.2 Download larger splits

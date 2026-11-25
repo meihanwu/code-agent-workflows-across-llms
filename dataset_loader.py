@@ -18,10 +18,6 @@ DATASETS = {
     "livecodebench_hard": {
         "default": ("livecodebench/LiveCodeBench-lite-hard.jsonl", 90),
     },
-    "apps-150": {
-        "format": "apps",
-        "default": ("APPS/APPS-test-stratified150.jsonl", 150),
-    },
     "apps-introductory": {
         "format": "apps",
         "apps_split": "introductory",
